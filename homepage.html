@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <title>主页</title>
+    <link rel="stylesheet" href="lib/all.min.css">
+    <link rel="stylesheet" href="css/homepage.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 -->
+        <header>
+            <img class="hdImg" src="images/niu.png" alt="">
+            <h3>我最牛</h3>
+            <i class="fas fa-volume-down" id="voide"></i>
+            <audio src="sleep.mp3" id="music"></audio>
+        </header>
+        <!-- 轮播图 -->
+        <div class="layout">
+            <div class="banner">
+                <ul class="clearfix">
+                    <li><a href="#"><img src="images/row-5.jpg"></a></li>
+                    <li><a href="#"><img src="images/row-1.jpg"></a></li>
+                    <li><a href="#"><img src="images/row-6.jpg"></a></li>
+                    <li><a href="#"><img src="images/row-7.jpg"></a></li>
+                    <li><a href="#"><img src="images/row-8.jpg"></a></li>
+                    <li><a href="#"><img src="images/row-5.jpg"></a></li>
+                    <li><a href="#"><img src="images/row-1.jpg"></a></li>
+                </ul>
+                <ul>
+                    <li class="now"></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <!-- 登陆注册 -->
+        <section>
+            <div class="na">
+                <span>用户名</span>
+                <input type="text" id="userName">
+            </div>
+            <p id="nameW"></p>
+            <div class="pw">
+                <span>密码</span>
+                <input type="password" id="password">
+            </div>
+            <p id="passW"></p>
+            <div class="bt">
+                <button id="loading">登陆</button>
+                <button id="register">注册</button>
+                <button id="forget">忘记密码</button>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="js/base.js"></script>
+<script src="js/slideshow.js"></script>
+<script src="js/homepage.js"></script>
+</html>

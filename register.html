@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <title>主页</title>
+    <link rel="stylesheet" href="lib/all.min.css">
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 -->
+        <header>
+            <i class="fas fa-chevron-left" id="returnn"></i>
+            <h3>注册</h3>
+            <i ></i>
+        </header>
+        
+        <!-- 登陆注册 -->
+        <section>
+            <div class="na">
+                <span>用户名</span>
+                <input type="text" id="name">
+            </div>
+            <p id="nameW"></p>
+            <div class="pw">
+                <span>密码</span>
+                <input type="password" id="password">
+            </div>
+            <p id="passW"></p>
+            <div class="pw">
+                <span>确认密码</span>
+                <input type="password" id="passwordR">
+            </div>
+            <p id="passWW"></p>
+            <div class="pw">
+                <span>邮箱</span>
+                <input type="email" id="email">
+            </div>
+            <p id="emailW"></p>
+            <div class="pw">
+                <span>手机</span>
+                <input type="text" id="phone">
+            </div>
+            <p id="phoneW"></p>
+            <div class="pw">
+                <span>验证码</span>
+                <input type="text" id="yzm" class="yzm">
+                <button  id="getY">获取验证码</button>
+                <button id="time" class="time"></button>
+            </div>
+            <p id="yzmW"></p>
+            <div class="bt">
+                <button onclick="change()">提交</button>
+                <button onclick="reset()">重置</button>
+            </div>
+            <h6>账号要求：首字为字母，至少8位，不得有汉字或特殊符号</h6>
+            <h6>密码要求：必须为数字与字母混合，大小写均有，至少8位，不得有汉字</h6>
+        </section>
+    </div>
+</body>
+<script src="js/register.js"></script>
+</html>

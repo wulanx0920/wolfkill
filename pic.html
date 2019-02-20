@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+ <script type="text/javascript">
+     var viWidth=document.documentElement.clientWidth;
+     if(viWidth<750){
+         document.documentElement.style.fontSize=viWidth/7.5+"px";
+     }else{
+        document.documentElement.style.fontSize="100px";
+     }
+ </script>
+  <title>轮播图移动端试验</title>
+  <style type="text/css">
+  html{
+    height:100%;
+    text-align: center;
+  }
+   body{
+    width:7.5rem;
+    height:100%;
+    margin:0 auto;
+    text-align: center;
+    font-size: 12px;
+    }
+   .clearfix:after{
+       content:"";
+       display: block;
+       clear: both;
+       height:0px;
+   }
+   .clearfix{
+       zoom:1;
+   }
+.myTitle{
+  margin:0px;
+  line-height:0.6rem;
+  height:0.6rem;
+  padding-top:0.2rem;
+  padding-bottom:0.2rem;
+  text-align:center;
+}
+.carousel1{
+      width:7rem;
+     height:3.5rem;
+    margin-left:auto;
+    margin-right:auto;
+    position: relative;
+    overflow:hidden;
+    }
+ .viewportA{
+  width:7rem;
+  height:3.5rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.parentA{
+  width:1000%;
+  position: absolute;
+}
+.parentA .item{
+  float:left;
+  position: relative;
+  width:7rem;
+  height:3.5rem;
+  margin:0px;
+  display:inline;
+  cursor: pointer;
+}
+.parentA .item img{
+  display: block;
+  width:7rem;
+  height:3.5rem;
+}
+.carousel1 .prevA{
+position:absolute;
+height:10%;
+width:auto;
+left:0;
+top:45%;
+z-index:3;
+opacity:0.4;
+cursor: pointer;
+}
+.carousel1 .nextA{
+position:absolute;
+height:10%;
+width:auto;
+right:0;
+top:45%;
+z-index:3;
+opacity:0.4;
+cursor: pointer;
+}
+.carousel1 .prevA:hover {
+  opacity:0.9;
+}
+.carousel1 .nextA:hover {
+  opacity:0.9;
+}
+.circleListA{
+  position:absolute;
+   z-index: 3;
+   bottom:0.2rem;
+   width:1.05rem;
+   height:0.15rem;
+   left:50%;
+   margin-left:-0.525rem;
+   padding-top:0.03rem;
+   padding-bottom:0.03rem;
+  zoom:1;
+  background-color:rgba(255,255,255,0.5);
+  border-radius:0.1rem;
+}
+.circleListA span{
+  float:left;
+  height:0.15rem;
+  width:0.15rem;
+  border-radius:70%;
+  margin-right:0.05rem;
+  background-color:white; 
+  cursor: pointer;
+}
+.circleListA span:hover{
+  background:#ffd700;
+}
+.circleListA .active{
+  background:#ff4500!important;
+}
+  </style>
+</head>
+<body>
+  <h1 class="myTitle"></h1>
+  <div class="carousel1" id="carousel1">
+  <div class="viewportA" id="viewportA">
+   <div id="parentA" class="parentA clearfix" style="left:-7rem">
+     <div class="item"><img src="img1.jpg" width="100%"></div>
+     <div class="item"><img src="img1.jpg" width="100%"></div>
+     <div class="item"><img src="img1.jpg" width="100%"></div>
+     <div class="item"><img src="img1.jpg" width="100%"></div>
+     <div class="item"><img src="img1.jpg" width="100%"></div>
+     <div class="item"><img src="img1.jpg" width="100%"></div>
+     <div class="item"><img src="img1.jpg" width="100%"></div>
+   </div>
+  </div>
+  <img src="image/btn-left.png" id="prevA" class="prevA" alt="点击->上一张">
+  <img src="image/btn-right.png" id="nextA" class="nextA" alt="点击->下一张">
+  <div id="circleListA" class="circleListA clearfix">
+    <span data-index="1" class="active" style="margin-left:0.05rem"></span>
+    <span data-index="2" class=""></span>
+    <span data-index="3" class=""></span>
+    <span data-index="4" class=""></span>
+    <span data-index="5" class=""></span>
+  </div>
+</div>
+<script type="text/javascript">
+ //轮播图构造函数
+
+function carouselFunc(viewport,parent,listPar,btnName,prev,next,bow,globalT,step,c_Or_Mo){
+var list=listPar.getElementsByTagName(btnName);
+var len=list.length,lim=len-1,i=0;
+var oriTarget=list[0];
+var jg=globalT/step;
+var timer,autoTimer,timerTo,outWaitT;
+var t=4000;
+var luoji=true,flag=false;
+var startX,startY,endX,endY,nowX,nowY;
+var offX,offY;
+        if(bow>0){
+          bow=-bow;
+        }
+        function onceScrollFunc(target){
+           var j=Number(target.getAttribute("data-index"));
+           var k=Number(oriTarget.getAttribute("data-index"));
+           if(target.className!="active"){
+            oriTarget.className="";
+            target.className="active";
+            oriTarget=target;
+            i=j-1;
+            var oriLoc=parent.offsetLeft;
+            var targetLoc=bow*j;
+            clearInterval(timer);
+            clearInterval(autoTimer);
+            if(targetLoc<oriLoc){
+              var py=(targetLoc-oriLoc)/step;
+               timer=setInterval(function(){
+                    if(oriLoc>targetLoc){
+                      oriLoc+=py;
+                      parent.style.left=oriLoc+"px";
+                    } else{
+                      clearInterval(timer);
+                      parent.style.left=targetLoc+"px";
+
+                    }
+               },jg);
+             }else if(targetLoc>oriLoc){
+              var py=(targetLoc-oriLoc)/step;
+              timer=setInterval(function(){
+                if(oriLoc<targetLoc){
+                  oriLoc+=py;
+                    parent.style.left=oriLoc+"px";  
+                } else{
+                  clearInterval(timer);
+                  parent.style.left=targetLoc+"px";
+                      
+                  }
+              },jg);
+             }
+           }
+      }
+  if(c_Or_Mo=="mouseover"){
+     listPar.onmouseover=function(event){
+        timerTo=setTimeout(function(){  
+           var e=event||window.event;
+           var target=e.target||e.srcElement;
+           if(target.tagName.toLowerCase()==btnName){
+             onceScrollFunc(target);         
+            }
+        },120);
+      };
+      listPar.onmouseout=function(event){
+         var e=event||window.event;
+         var target=e.target||e.srcElement;
+         if(target.tagName.toLowerCase()==btnName){
+          clearTimeout(timerTo);
+         }
+      };
+  } else if(c_Or_Mo=="click"){ 
+      listPar.onclick=function(event){
+         var e=event||window.event;
+         var target=e.target||e.srcElement;
+         if(target.tagName.toLowerCase()==btnName){
+           onceScrollFunc(target);  
+         }
+      }
+  }
+  prev.onclick=function(){
+      if(luoji){
+           luoji=false;
+           ScrollWidthFunc(0);  
+     } 
+   }
+  next.onclick=function(){
+      if(luoji){
+           luoji=false;
+           ScrollWidthFunc(1);  
+      } 
+   }
+  function ScrollWidthFunc(dir){
+         if(dir==1){
+          list[i].className="";
+           if(i<lim){
+            i+=1;
+           }else{
+            i=0;
+            parent.style.left="0px";
+           }
+           list[i].className="active";
+           oriTarget=list[i];
+           var nowScroll=parent.offsetLeft;
+           var objScroll=nowScroll+bow;
+           var py=bow/step;
+           timer=setInterval(function(){
+               if(nowScroll>objScroll){
+                  nowScroll+=py;
+                  parent.style.left=nowScroll+"px";
+               } else{
+                  clearInterval(timer);
+                  parent.style.left=objScroll+"px";
+                  luoji=true;
+             }
+           },jg);  
+
+         } else{
+          list[i].className="";
+          if(i>0){
+            i-=1;
+          }else{
+            i=lim;
+            parent.style.left=bow*(len+1)+"px";
+          }
+            list[i].className="active";
+            oriTarget=list[i];
+            var nowScroll=parent.offsetLeft;
+           var objScroll=nowScroll-bow;
+           var py=bow/step;
+           timer=setInterval(function(){
+             if(nowScroll<objScroll){
+              nowScroll-=py;
+              parent.style.left=nowScroll+"px";
+             } else{
+              clearInterval(timer);
+              parent.style.left=objScroll+"px";
+                luoji=true;
+             }
+           },jg);
+        }
+        
+     }
+   if(document.documentElement.clientWidth<751){
+       parent.addEventListener('touchstart',function(event){
+          if(!flag){
+           clearInterval(autoTimer);
+           clearInterval(timer);
+           clearTimeout(outWaitT); 
+           flag=true;
+           var e=event||window.event;
+           tStart(e);
+          }
+         },false);
+       parent.addEventListener('touchmove',function(event){
+         var e=event||window.event;
+         e.preventDefault();
+         tMove(e);
+        },false);
+      parent.addEventListener('touchend',function(event){
+        var e=event||window.event;        
+        flag=false;
+        tEnd(e);
+        },false);
+    } else{
+       if(parent.addEventListener){
+         parent.addEventListener('mousedown',function(event){
+          if(!flag){
+           clearInterval(autoTimer);
+           clearInterval(timer);
+           clearTimeout(outWaitT); 
+           flag=true;
+           var e=event||window.event;
+           tStart(e);
+          } 
+         },false);
+        parent.addEventListener('mousemove',function(event){
+         var e=event||window.event;
+         e.preventDefault();
+         tMove(e);
+        },false);
+        parent.addEventListener('mouseup',function(event){
+        var e=event||window.event;        
+        flag=false;
+        tEnd(e);
+        },false);
+      }else{
+        parent.attachEvent('onmousedown',function(event){
+          if(!flag){
+           clearInterval(autoTimer);
+           clearInterval(timer);
+           clearTimeout(outWaitT); 
+           flag=true;
+           var e=event||window.event;
+           tStart(e);
+          } 
+         });
+        parent.attachEvent('onmousemove',function(event){
+         var e=event||window.event;
+         e.preventDefault();
+         tMove(e);
+        });
+        parent.attachEvent('onmouseup',function(event){
+        var e=event||window.event;        
+        flag=false;
+        tEnd(e);
+        });
+      }
+  } 
+  
+  function tStart(e){
+        var touch;
+          if(e.type=='touchstart'){
+          touch=e.targetTouches[0];
+         }else{
+          touch=e;
+         }
+          startX=touch.pageX;
+          startY=touch.pageY;
+          offX=parent.offsetLeft;
+          offY=parent.offsetTop;
+     }
+  function tMove(e){
+          if(flag){
+         var touch;
+         if(e.type=='touchmove'){
+         touch=e.targetTouches[0];
+         }else{
+          touch=e;
+         }
+         nowX=touch.pageX-startX;
+         nowY=touch.pageY-startY;
+         parent.style.left=(offX+nowX)+"px";
+        }
+     }
+  function tEnd(e){
+        var touch;
+        if(e.type=='touchend'){
+        touch=e.changedTouches[0];
+        }else{
+          touch=e;
+        }
+        endX=touch.pageX;
+        var distance=parent.offsetLeft;
+        var s=Math.abs(endX-startX);
+        var judge=Math.abs(bow*0.2);
+        var lu=Math.abs(bow)-s;
+        var py=Math.abs(bow/step);
+       if(luoji){
+       if(s>judge){
+           if(distance<offX){
+            list[i].className="";
+            if(i<lim){
+              i+=1;
+              var objDis=bow*(Math.floor(Math.abs(distance)/Math.abs(bow))+1);
+             }else{
+              parent.style.left=-s+"px";
+              distance=-s;
+             var objDis=bow;
+              i=0;
+             }
+             list[i].className="active";
+           oriTarget=list[i];
+           timer=setInterval(function(){
+             if(distance>objDis){
+              distance-=py;
+              parent.style.left=distance+"px";
+             }else{
+              clearInterval(timer);
+              parent.style.left=objDis+"px";
+              if(e.type=='touchend'){
+              play(1000,1);
+            }
+           }
+          },jg);
+        }else{
+           list[i].className="";
+               if(i>0){
+              i-=1;
+              var objDis=bow*(Math.floor(Math.abs(distance)/Math.abs(bow)));
+             }else{
+             parent.style.left=(bow*(len+1)+s)+"px";
+             distance=bow*(len+1)+s;
+            var objDis=bow*len;
+             i=lim;
+             }
+          list[i].className="active";
+          oriTarget=list[i];
+         timer=setInterval(function(){
+            if(distance<objDis){
+              distance+=py;
+              parent.style.left=distance+"px";
+            }else{
+              clearInterval(timer);
+              parent.style.left=objDis+"px";
+              if(e.type=='touchend'){
+               play(1000,0);
+            }
+           }
+          },jg);
+        }
+      }else{
+         var targetP=bow*(Math.floor(Math.abs(offX)/Math.abs(bow)));
+         if(distance<targetP){
+            timer=setInterval(function(){
+            if(distance<targetP){
+              distance+=py;
+              parent.style.left=distance+"px";
+            }else{
+              clearInterval(timer);
+              parent.style.left=targetP+"px";
+              if(e.type=='touchend'){
+               play(1000,1);
+            }
+           }
+          },jg);
+        }else{
+          timer=setInterval(function(){
+             if(distance>targetP){
+              distance-=py;
+              parent.style.left=distance+"px";
+             }else{
+              clearInterval(timer);
+              parent.style.left=targetP+"px";
+              if(e.type=='touchend'){
+               play(1000,1);
+            }
+             }
+          },jg);
+        }
+      }
+    } else{
+      var targetP2=(i+1)*bow;
+      if(targetP2<distance){
+        timer=setInterval(function(){
+          if(distance>targetP2){
+            distance-=py;
+            parent.style.left=distance+"px";
+          }else{
+            clearInterval(timer);
+            parent.style.left=targetP2+"px";
+           if(e.type=='touchend'){
+             play(1000,1);
+            }
+            luoji=true;
+          }
+        },jg)
+      }else{
+        timer=setInterval(function(){
+           if(targetP2>distance){
+            distance+=py;
+            parent.style.left=distance+"px";
+           }else{
+            clearInterval(timer);
+            parent.style.left=targetP2+"px";
+            if(e.type=='touchend'){
+             play(1000,0);
+            }
+            luoji=true;
+           }
+        },jg)
+      }
+    }
+  }
+    
+   viewport.onmouseover=function(){
+      clearInterval(autoTimer);
+      clearTimeout(outWaitT);
+      }
+   viewport.onmouseout=function(event){
+       outWaitT=setTimeout(function(){
+              play(4000,1);
+            },1000);
+  };
+
+  function play(t,i){
+    autoTimer=setInterval(function(){
+       if(luoji){
+             luoji=false;
+            ScrollWidthFunc(i);  
+        } 
+    },t);
+  }
+  play(1000,1);
+   
+}
+function carousel1Func(){
+   var carousel1=document.getElementById("carousel1");
+   var viewportA=document.getElementById("viewportA");
+   var parentA=document.getElementById("parentA");
+   var listPar=document.getElementById("circleListA");
+   var btnName="span";
+   var prevA=document.getElementById("prevA");
+   var nextA=document.getElementById("nextA");
+   var globalT=500;
+   var step=50;
+   var bowA=-viewportA.clientWidth;
+   carouselFunc(carousel1,parentA,listPar,btnName,prevA,nextA,bowA,globalT,step,"mouseover");
+}
+if(window.addEventListener){
+  window.addEventListener("load",function(){
+        carousel1Func();
+  },false);
+}else if(window.attachEvent){
+  window.attachEvent("onload",function(){
+       carousel1Func();
+  });
+}
+</script>
+</body>
+</html>

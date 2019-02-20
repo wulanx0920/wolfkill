@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <title>主页</title>
+    <link rel="stylesheet" href="lib/all.min.css">
+    <link rel="stylesheet" href="css/forget.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部 -->
+        <header>
+            <i class="fas fa-chevron-left" id="returnn"></i>
+            <h3>修改密码</h3>
+            <i ></i>
+        </header>
+        
+        <!-- 登陆注册 -->
+        <section>
+            <div class="na">
+                <span>用户名</span>
+                <h4 id="userName" class="name"></h4>
+            </div>
+            <p>必须为数字与字母混合，大小写均有，至少8位，不得有汉字</p>
+            <div class="pw">
+                <span>新密码</span>
+                <input type="password" id="passwordN">
+            </div>
+            <p id="passW"></p>
+            <div class="pw">
+                <span>确认密码</span>
+                <input type="password" id="passwordR">
+            </div>
+            <p id="passWW"></p>
+            <div class="bt">
+                <button id="change">提交</button>
+                <button id="reset">重置</button>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="js/forgetN.js"></script>
+</html>
